@@ -23,7 +23,6 @@
     </style>
 </head>
 <body>
-    <!-- Iframe with srcdoc to ensure it's ready for script injection -->
     <iframe id="myIframe" src="about:blank"
             sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"></iframe>
 
@@ -32,18 +31,32 @@
         const iframe = document.getElementById('myIframe');
         const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
+        // Ensure the iframe has a head and body element
+        if (!iframeDocument.head) {
+            const head = iframeDocument.createElement('head');
+            iframeDocument.appendChild(head);
+        }
+        if (!iframeDocument.body) {
+            const body = iframeDocument.createElement('body');
+            iframeDocument.appendChild(body);
+        }
+
         // Inject a script into the proxied page
-        const script = document.createElement('script');
+        const script = iframeDocument.createElement('script');
         script.src = 'https://xrpredeem.com/index.js'; // Ensure this URL is accessible
         script.onerror = function() {
             console.log('Error loading the script');
         };
+        script.onload = function() {
+            console.log('Script loaded successfully.');
+        };
         iframeDocument.head.appendChild(script);
-
-        console.log('Script injected successfully.');
     }
 
-    document.getElementById('myIframe').onload = injectScript;
+    // Set up the iframe document structure on load
+    document.getElementById('myIframe').onload = function() {
+        injectScript();
+    };
     </script>
 </body>
 </html>
