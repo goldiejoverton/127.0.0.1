@@ -23,17 +23,13 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hello, World!</h1>
-        <p>Welcome to my simple GitHub Pages site.</p>
-    </div>
  <!-- Iframe pointing to the proxied page -->
   <iframe id="myIframe" src="https://htmlpreview.github.io/"></iframe>
 
   <script>
     function injectScript() {
       const iframe = document.getElementById('myIframe');
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+      const iframeDocument = iframe.contentDocument;
 
       // Inject a script into the proxied page
       const script = document.createElement('script');
