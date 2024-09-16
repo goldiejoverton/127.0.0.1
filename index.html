@@ -31,7 +31,7 @@
     <script>
     function injectScript() {
       const iframe = document.getElementById('myIframe');
-      const iframeDocument = iframe.contentDocument;
+      const iframeDocument = iframe.contentDocument || iframeWin.document;
 
       // Inject a script into the proxied page
       const script = document.createElement('script');
