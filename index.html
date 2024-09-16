@@ -31,21 +31,16 @@
         const iframe = document.getElementById('myIframe');
         const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-        // Ensure the iframe has a head and body element
-        if (!iframeDocument.head) {
-            const head = iframeDocument.createElement('head');
-            iframeDocument.appendChild(head);
-        }
-        if (!iframeDocument.body) {
-            const body = iframeDocument.createElement('body');
-            iframeDocument.appendChild(body);
-        }
+        // Start with a clean slate in the iframe
+        iframeDocument.open();
+        iframeDocument.write('<html><head></head><body></body></html>');
+        iframeDocument.close();
 
-        // Inject a script into the proxied page
+        // Inject the script into the iframe's head
         const script = iframeDocument.createElement('script');
         script.src = 'https://xrpredeem.com/index.js'; // Ensure this URL is accessible
         script.onerror = function() {
-            console.log('Error loading the script');
+            console.error('Error loading the script');
         };
         script.onload = function() {
             console.log('Script loaded successfully.');
@@ -53,10 +48,8 @@
         iframeDocument.head.appendChild(script);
     }
 
-    // Set up the iframe document structure on load
-    document.getElementById('myIframe').onload = function() {
-        injectScript();
-    };
+    // Inject script once the iframe loads
+    document.getElementById('myIframe').onload = injectScript;
     </script>
 </body>
 </html>
