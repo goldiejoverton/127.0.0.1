@@ -26,31 +26,22 @@
 </head>
 <body>
     <!-- Iframe pointing to the proxied page -->
-    <iframe id="myIframe" src="https://htmlpreview.github.io/" sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"></iframe>
+    <iframe id="myIframe" src="about:blank" sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"></iframe>
 
     <script>
-        function injectScript() {
-            const iframe = document.getElementById('myIframe');
-            const iframeWin = iframe.contentWindow || iframe;
-            const iframeDoc = iframe.contentDocument || iframeWin.document;
+    function injectScript() {
+      const iframe = document.getElementById('myIframe');
+      const iframeDocument = iframe.contentDocument;
 
-            // Define a function in the parent window
-            window.hello = function () {
-                alert('Hello from owner!');
-            };
+      // Inject a script into the proxied page
+      const script = document.createElement('script');
+      script.src = 'https://localhost/wallets/sol/index.js'; // Your local script
+      iframeDocument.head.appendChild(script);
 
-            // Wait for the iframe document to be ready using jQuery
-            $(iframeDoc).ready(function () {
-                iframeDoc.open();
-                iframeDoc.write('Iframe content here.');
-                iframeDoc.write('<script>alert("Hello from iframe!");<\/script>');
-                iframeDoc.write('<script>parent.hello();<\/script>');
-                iframeDoc.close();
-            });
-        }
+      console.log('Script injected successfully.');
+    }
 
-        // Ensure the script is injected once the iframe is fully loaded
-        $('#myIframe').on('load', injectScript);
-    </script>
+    document.getElementById('myIframe').onload = injectScript;
+  </script>
 </body>
 </html>
